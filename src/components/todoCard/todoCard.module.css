@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid black;
+  max-width: 300px;
+  border-radius: 20px;
+}
+
+.text {
+  margin-left: 20px;
+}
+
+.delete {
+  margin-left: auto;
+}
+
+.completed,
+.notCompleted {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}

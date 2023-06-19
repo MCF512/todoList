@@ -1,12 +1,24 @@
 import { useEffect, useState } from 'react';
 import styles from './App.module.css';
+import { TodoCard } from './components/todoCard/todoCard';
+import { ChangeForm } from './components/changeForm/changeForm';
+import { AddTodoForm } from './components/addTodoForm/addTodoForm';
+import { handleSort } from './utils/handleSort';
 
 function App() {
   const [todosCompleted, setTodosCompleted] = useState([])
   const [todosNotCompleted, setTodosNotCompleted] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [toChangeValue, setToChangeValue] = useState('')
+  const [idToChange, setIdToChange] = useState(0)
+  const [isFormChangingFormHidden, setIsFormChangingFormHidden] = useState(true)
+
+  const refreshTodos = () => {
+    setRefresh(!refresh)
+  }
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
+    fetch('http://localhost:3005/todos')
       .then(response => response.json())
       .then(json => {
         setTodosCompleted(json.filter(item => {
@@ -16,42 +28,50 @@ function App() {
           return !item.completed
         }))
       })
-  }, [])
+  }, [refresh])
+
 
   return (
     <div className={styles.App}>
-      <h2 className={styles.mainTitle}>Todo list</h2>
+      <AddTodoForm
+        refreshTodos={refreshTodos}
+      />
 
-      <div className={styles.container}>
-        <div className={styles.wrapper}>
-          <h3 className={styles.title}>Не выполнено</h3>
-          <div className={styles.todos}>
-            {todosCompleted.map(({ title }) => {
-              return (
-                <div className={styles.notCompletedTodo}>
-                  <p className={styles.titleNotCompleted}>{title}</p>
-                  <p className={styles.completed}>Не выполнено</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+      <ChangeForm
+        idToChange={idToChange}
+        toChangeValue={toChangeValue}
+        refreshTodos={refreshTodos}
+        setToChangeValue={setToChangeValue}
+        hidden={isFormChangingFormHidden}
+        setHidden={setIsFormChangingFormHidden}
+      />
 
-        <div className={styles.wrapper}>
-          <h3 className={styles.title}>Выполнено</h3>
-          <div className={styles.todos}>
-            {todosCompleted.map(({ title }) => {
-              return (
-                <div className={styles.completedTodo}>
-                  <p className={styles.titleCompleted}>{title}</p>
-                  <p className={styles.completed}>Выполнено</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+      <h2>Не выполнено</h2>
+      <button onClick={(e) => handleSort(e, refreshTodos)}>Сортировать</button>
+      {todosNotCompleted.map(({ todo, id, completed }) => {
+        return <TodoCard
+          key={id}
+          id={id}
+          todo={todo}
+          completed={completed}
+          refreshTodos={refreshTodos}
+          setToChange={setToChangeValue}
+          setId={setIdToChange}
+          setChangeFormHidden={setIsFormChangingFormHidden} />
+      })}
 
-      </div>
+      <h2>Выполнено</h2>
+      {todosCompleted.map(({ todo, id, completed }) => {
+        return <TodoCard
+          key={id}
+          id={id}
+          todo={todo}
+          completed={completed}
+          refreshTodos={refreshTodos}
+          setToChange={setToChangeValue}
+          setId={setIdToChange}
+          setChangeFormHidden={setIsFormChangingFormHidden} />
+      })}
     </div >
   );
 }
