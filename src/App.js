@@ -3,7 +3,9 @@ import styles from './App.module.css';
 import { TodoCard } from './components/todoCard/todoCard';
 import { ChangeForm } from './components/changeForm/changeForm';
 import { AddTodoForm } from './components/addTodoForm/addTodoForm';
-import { handleSort } from './utils/handleSort';
+import { Search } from './components/search/search';
+// import { handleSearch } from './utils/handleSearch';
+import { handleLoading } from './utils/handleLoading';
 
 function App() {
   const [todosCompleted, setTodosCompleted] = useState([])
@@ -12,29 +14,32 @@ function App() {
   const [toChangeValue, setToChangeValue] = useState('')
   const [idToChange, setIdToChange] = useState(0)
   const [isFormChangingFormHidden, setIsFormChangingFormHidden] = useState(true)
+  const [needToSort, setNeedToSort] = useState(false)
 
   const refreshTodos = () => {
     setRefresh(!refresh)
   }
 
   useEffect(() => {
-    fetch('http://localhost:3005/todos')
-      .then(response => response.json())
-      .then(json => {
-        setTodosCompleted(json.filter(item => {
-          return item.completed
-        }))
-        setTodosNotCompleted(json.filter(item => {
-          return !item.completed
-        }))
-      })
-  }, [refresh])
+    handleLoading(needToSort, setTodosCompleted, setTodosNotCompleted)
+  }, [refresh, needToSort])
+
+  const clickOnSort = () => {
+    needToSort ? setNeedToSort(false) : setNeedToSort(true);
+    refreshTodos()
+  }
 
 
   return (
     <div className={styles.App}>
       <AddTodoForm
         refreshTodos={refreshTodos}
+      />
+
+      <Search
+        setTodosCompleted={setTodosCompleted}
+        setTodosNotCompleted={setTodosNotCompleted}
+        refresh={refreshTodos}
       />
 
       <ChangeForm
@@ -47,7 +52,7 @@ function App() {
       />
 
       <h2>Не выполнено</h2>
-      <button onClick={(e) => handleSort(e, refreshTodos)}>Сортировать</button>
+      <button onClick={clickOnSort}>Сортировать</button>
       {todosNotCompleted.map(({ todo, id, completed }) => {
         return <TodoCard
           key={id}
