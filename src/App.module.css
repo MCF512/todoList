@@ -1,17 +1,13 @@
 .App {
-  padding: 10px;
-}
-
-.container {
-  display: flex;
-  justify-content: space-around;
+  padding: 15px;
+  max-width: 1230px;
+  margin: 0 auto;
 }
 
 .completedTodo,
 .notCompletedTodo {
   border: 1px solid black;
   padding: 10px;
-  margin-bottom: 10px;
   max-width: 450px;
   border-radius: 20px;
 }
@@ -28,4 +24,9 @@
 .mainTitle,
 .title {
   text-align: center;
+}
+
+.botWrapper {
+  display: flex;
+  justify-content: space-around;
 }

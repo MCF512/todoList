@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { handleDelete } from '../../utils/handleDelete';
 
 export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId, setChangeFormHidden }) => {
-  const [checked, setChecked] = useState(completed)
+  const [checked, setChecked] = useState(completed);
+  const [showBtns, setShowBtns] = useState(false)
+
 
   const handleClickCheckbox = (id) => {
     setChecked(!checked)
@@ -34,7 +36,11 @@ export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId
   }
 
   return (
-    <div className={styles.card}>
+    <div
+      className={styles.card}
+      onMouseEnter={() => setShowBtns(true)}
+      onMouseLeave={() => setShowBtns(false)}
+    >
       <form>
         <input
           className={styles.checkbox}
@@ -48,9 +54,15 @@ export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId
         {todo}
       </p>
 
-      <button
-        onClick={() => handleDelete(id, refreshTodos)}
-        className={styles.delete}>Delete</button>
+
+      <div className={styles.btns}>
+        <button className={showBtns ? styles.correct : styles.correctHidden}>
+        </button>
+
+        <button
+          onClick={() => handleDelete(id, refreshTodos)}
+          className={showBtns ? styles.delete : styles.deleteHidden}></button>
+      </div>
     </div>
   )
 }
