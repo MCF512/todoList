@@ -5,7 +5,7 @@ import { handleSearch } from "../../utils/handleSearch";
 export const Search = ({ setTodosCompleted, setTodosNotCompleted }) => {
 
   return (
-    <form>
+    <form className={styles.form}>
       <input className={styles.input} placeholder="Поиск..." type="text" onChange={({ target }) => handleSearch(target.value, setTodosCompleted, setTodosNotCompleted)} />
     </form>
   )

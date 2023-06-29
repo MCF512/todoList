@@ -1,7 +1,11 @@
 .App {
   padding: 15px;
-  max-width: 1230px;
+  max-width: 930px;
   margin: 0 auto;
+}
+
+.AppWrapper {
+  position: relative;
 }
 
 .completedTodo,
@@ -28,5 +32,20 @@
 
 .botWrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+.btnWrapper {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 100%;
+  min-height: 100vh;
+  height: 100%;
+  width: 100px;
+}
+
+.todoWrapper {
+  width: 450px;
 }

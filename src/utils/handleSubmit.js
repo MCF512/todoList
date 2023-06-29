@@ -1,4 +1,4 @@
-export const handleSubmit = (e, id, toChangeValue, refreshTodos, setHidden) => {
+export const handleSubmit = (e, id, toChangeValue, refreshTodos, setVisible) => {
   e.preventDefault()
 
   async function getData() {
@@ -18,5 +18,5 @@ export const handleSubmit = (e, id, toChangeValue, refreshTodos, setHidden) => {
       }).then(() => refreshTodos())
     })
 
-  setHidden(true)
+  setVisible(false)
 }

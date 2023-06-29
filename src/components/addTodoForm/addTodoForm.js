@@ -1,34 +1,40 @@
 import { useState } from "react"
+import { handleAddTodo } from '../../utils/handleAddDodo'
+import styles from './addTodoForm.module.css'
 
-export const AddTodoForm = ({ refreshTodos }) => {
-  const [addTodoValue, setAddTodoValue] = useState('')
-
-  const addTodo = (e) => {
-    e.preventDefault()
-    const ID = Math.floor(Math.random() * 10000)
-
-    if (addTodoValue) {
-      fetch(`http://localhost:3005/todos/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json;charset=utf-8' },
-        body: JSON.stringify({
-          id: ID,
-          todo: addTodoValue,
-          completed: false
-        })
-      }).then(() => refreshTodos())
-
-      setAddTodoValue('')
-    }
+export const AddTodoForm = ({ refreshTodos, visible, setVisible }) => {
+  const [addTodoValue, setAddTodoValue] = useState('');
+  const varStyle = {
+    '--scrollTop': `${document.documentElement.scrollTop}px`
   }
 
   return (
-    <form onSubmit={(e) => addTodo(e)}>
-      <input
-        onChange={(e) => setAddTodoValue(e.target.value)}
-        value={addTodoValue}
-        type="text" />
-      <button type="submit">Добавить задачу</button>
-    </form>
+    <div
+      className={visible ? styles.wrapper : styles.invisible}
+      style={varStyle}
+    >
+      <form
+        className={styles.form}
+        onSubmit={(e) => handleAddTodo(e, addTodoValue, setAddTodoValue, refreshTodos, setVisible)}
+      >
+        <p className={styles.title}>Добавить задачу</p>
+        <input
+          className={styles.textarea}
+          onChange={(e) => setAddTodoValue(e.target.value)}
+          value={addTodoValue}
+          type="text"
+          placeholder="Описание задачи..."
+        />
+        <div className={styles.botWrapper}>
+          <button className={styles.add} type="submit"></button>
+          <button className={styles.close} type="button" onClick={() => {
+            document.body.style.overflow = 'visible'
+            setAddTodoValue('')
+            setVisible(false)
+          }}></button>
+
+        </div>
+      </form>
+    </div>
   )
 }
