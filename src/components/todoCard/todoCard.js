@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { handleDelete } from '../../utils/handleDelete';
 import { handleDone } from '../../utils/handleDone';
 import { handleCorrectBtnClick } from '../../utils/handleCorrectBtnClick';
+import { MyCheckbox } from '../UI/MyCheckbox/MyCheckbox';
 
 export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId, setChangeFormVisible }) => {
   const [showBtns, setShowBtns] = useState(false)
@@ -13,13 +14,13 @@ export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId
       onMouseEnter={() => setShowBtns(true)}
       onMouseLeave={() => setShowBtns(false)}
     >
-      <form>
-        <input
-          className={styles.checkbox}
-          onChange={() => handleDone(id, refreshTodos)}
-          checked={completed}
-          type='checkbox' />
-      </form>
+
+      <MyCheckbox
+        id={id}
+        refreshTodos={refreshTodos}
+        completed={completed}
+      />
+
       <p
         className={completed ? styles.completed : styles.notCompleted}>
         {todo}

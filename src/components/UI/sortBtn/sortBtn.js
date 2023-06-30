@@ -1,21 +1,20 @@
 import { useState } from "react"
 import styles from './sortBtn.module.css'
 
-export const SortBtn = ({ sortType, setSort }) => {
+export const SortBtn = ({ sortType, setSort, setIsLoading }) => {
   const [style, setStyle] = useState(styles.NO)
 
   const clickOnSort = (val) => {
-    if (val == 'noSort') {
-      setStyle(styles.AZ)
-      return 'A-Z'
-    }
-    if (val == 'A-Z') {
-      setStyle(styles.ZA)
-      return 'Z-A'
-    }
-    if (val == 'Z-A') {
-      setStyle(style.NO)
-      return 'noSort'
+    switch (val) {
+      case 'noSort':
+        setStyle(styles.AZ)
+        return 'A-Z'
+      case 'A-Z':
+        setStyle(styles.ZA)
+        return 'Z-A'
+      case 'Z-A':
+        setStyle(styles.NO)
+        return 'noSort'
     }
   }
 
@@ -23,10 +22,10 @@ export const SortBtn = ({ sortType, setSort }) => {
     <button
       className={style}
       onClick={() => {
+        setIsLoading(true)
         setSort(clickOnSort(sortType))
       }}
     >
-      {sortType}
     </button>
   )
 }

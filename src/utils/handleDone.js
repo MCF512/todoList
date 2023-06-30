@@ -1,4 +1,4 @@
-export const handleDone = (id, refresh) => {
+export const handleDone = (id, refresh, setIsLoading) => {
   fetch(`http://localhost:3005/todos/${id}`)
     .then(res => res.json())
     .then(json => {
@@ -8,6 +8,8 @@ export const handleDone = (id, refresh) => {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json;charset=utf-8' },
         body: JSON.stringify(json)
-      }).then(() => refresh())
+      }).then(() => {
+        refresh()
+      })
     })
 }

@@ -1,11 +1,31 @@
+.NO,
+.AZ,
+.ZA {
+  width: 25px;
+  height: 25px;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, .04);
+  background-size: cover;
+  background-position: center center;
+  margin-left: 10px;
+}
+
+.NO:hover,
+.AZ:hover,
+.ZA:hover {
+  opacity: 0.8;
+}
+
+
 .NO {
-  background-color: red;
+  background-image: url('../../../assets/no-sort.svg');
 }
 
 .AZ {
-  background-color: green;
+  background-image: url('../../../assets/sortAZ.svg');
 }
 
 .ZA {
-  background-color: blue;
+  background-image: url('../../../assets/sortZA.svg');
 }

@@ -18,5 +18,6 @@ export const handleSubmit = (e, id, toChangeValue, refreshTodos, setVisible) => 
       }).then(() => refreshTodos())
     })
 
+  document.body.style.overflow = 'visible'
   setVisible(false)
 }

@@ -1,4 +1,4 @@
-export const handleSort = (sortType, setTodosCompleted, setTodosNotCompleted, sortDoneTodos) => {
+export const handleSort = (sortType, setTodosCompleted, setTodosNotCompleted, sortDoneTodos, setIsLoading) => {
   fetch('http://localhost:3005/todos')
     .then(response => response.json())
     .then(json => {
@@ -44,5 +44,5 @@ export const handleSort = (sortType, setTodosCompleted, setTodosNotCompleted, so
           return !item.completed
         }))
       }
-    })
+    }).then(() => setIsLoading(false))
 }

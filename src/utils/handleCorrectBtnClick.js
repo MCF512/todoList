@@ -4,6 +4,7 @@ export const handleCorrectBtnClick = (id, setToChange, setId, setChangeFormVisib
     .then(json => {
       setToChange(json.todo)
       setId(id)
+      document.body.style.overflow = 'hidden'
       setChangeFormVisible(true)
     })
 }
