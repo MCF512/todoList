@@ -1,34 +1,35 @@
-import { useEffect, useState } from 'react';
-import styles from './App.module.css';
-import { TodoCard } from './components/todoCard/todoCard';
-import { ChangeForm } from './components/changeForm/changeForm';
-import { AddTodoForm } from './components/addTodoForm/addTodoForm';
-import { Search } from './components/search/search';
-import { AddTodoBtn } from './components/UI/addTodoBtn/addTodoBtn';
-import { handleSort } from './utils/handleSort';
-import { SortBtn } from './components/UI/sortBtn/sortBtn';
-import { Spinner } from './components/UI/spinner/spinner';
+import { useEffect, useState } from "react";
+import styles from "./App.module.css";
+import { TodoCard } from "./components/todoCard/todoCard";
+import { ChangeForm } from "./components/changeForm/changeForm";
+import { AddTodoForm } from "./components/addTodoForm/addTodoForm";
+import { Search } from "./components/search/search";
+import { AddTodoBtn } from "./components/UI/addTodoBtn/addTodoBtn";
+import { handleSort } from "./utils/handleSort";
+import { SortBtn } from "./components/UI/sortBtn/sortBtn";
+import { Spinner } from "./components/UI/spinner/spinner";
+import { handleLoading } from "./utils/handleLoading";
 
 function App() {
-  const [todosCompleted, setTodosCompleted] = useState([])
-  const [todosNotCompleted, setTodosNotCompleted] = useState([])
-  const [refresh, setRefresh] = useState(false)
-  const [toChangeValue, setToChangeValue] = useState('')
-  const [idToChange, setIdToChange] = useState(0)
-  const [isFormChangingFormVisible, setIsFormChangingFormVisible] = useState(false)
-  const [showAddTodo, setShowAddTodo] = useState(false)
-  const [sortDone, setSortDone] = useState('noSort')
-  const [sortNotDone, setSortNotDone] = useState('noSort')
-  const [isLoading, setIsLoading] = useState(true)
+  const [todosCompleted, setTodosCompleted] = useState([]);
+  const [todosNotCompleted, setTodosNotCompleted] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [toChangeValue, setToChangeValue] = useState("");
+  const [idToChange, setIdToChange] = useState(0);
+  const [isFormChangingFormVisible, setIsFormChangingFormVisible] =
+    useState(false);
+  const [showAddTodo, setShowAddTodo] = useState(false);
+  const [sortDone, setSortDone] = useState("noSort");
+  const [sortNotDone, setSortNotDone] = useState("noSort");
+  const [isLoading, setIsLoading] = useState(true);
 
   const refreshTodos = () => {
-    setRefresh(!refresh)
-  }
+    setRefresh(!refresh);
+  };
 
   useEffect(() => {
-    handleSort(sortDone, setTodosCompleted, setTodosNotCompleted, true, setIsLoading)
-    handleSort(sortNotDone, setTodosCompleted, setTodosNotCompleted, false, setIsLoading)
-  }, [refresh, sortDone, sortNotDone])
+    handleLoading(setTodosCompleted, setTodosNotCompleted, setIsLoading);
+  }, [refresh, sortDone, sortNotDone]);
 
   return (
     <div className={styles.App}>
@@ -36,6 +37,7 @@ function App() {
         refreshTodos={refreshTodos}
         visible={showAddTodo}
         setVisible={setShowAddTodo}
+        setIsLoading={setIsLoading}
       />
 
       <ChangeForm
@@ -56,10 +58,9 @@ function App() {
           />
         </div>
 
-
-        {isLoading ?
+        {isLoading ? (
           <Spinner />
-          :
+        ) : (
           <div className={styles.botWrapper}>
             <div className={styles.todoWrapper}>
               <div className={styles.titleWrapper}>
@@ -70,17 +71,26 @@ function App() {
                   setIsLoading={setIsLoading}
                 />
               </div>
-              {todosNotCompleted.map(({ todo, id, completed }) => {
-                return <TodoCard
-                  key={id}
-                  id={id}
-                  todo={todo}
-                  completed={completed}
-                  refreshTodos={refreshTodos}
-                  setToChange={setToChangeValue}
-                  setId={setIdToChange}
-                  setChangeFormVisible={setIsFormChangingFormVisible} />
-              })}
+              {todosNotCompleted.length ? (
+                <>
+                  {todosNotCompleted.map(({ todo, id, completed }) => {
+                    return (
+                      <TodoCard
+                        key={id}
+                        id={id}
+                        todo={todo}
+                        completed={completed}
+                        refreshTodos={refreshTodos}
+                        setToChange={setToChangeValue}
+                        setId={setIdToChange}
+                        setChangeFormVisible={setIsFormChangingFormVisible}
+                      />
+                    );
+                  })}{" "}
+                </>
+              ) : (
+                <p className={styles.empty}>Тут пока пусто...</p>
+              )}
             </div>
 
             <div className={styles.todoWrapper}>
@@ -92,29 +102,35 @@ function App() {
                   setIsLoading={setIsLoading}
                 />
               </div>
-              {todosCompleted.map(({ todo, id, completed }) => {
-                return <TodoCard
-                  key={id}
-                  id={id}
-                  todo={todo}
-                  completed={completed}
-                  refreshTodos={refreshTodos}
-                  setToChange={setToChangeValue}
-                  setId={setIdToChange}
-                  setChangeFormVisible={setIsFormChangingFormVisible} />
-              })}
+              {todosCompleted.length ? (
+                <>
+                  {todosCompleted.map(({ todo, id, completed }) => {
+                    return (
+                      <TodoCard
+                        key={id}
+                        id={id}
+                        todo={todo}
+                        completed={completed}
+                        refreshTodos={refreshTodos}
+                        setToChange={setToChangeValue}
+                        setId={setIdToChange}
+                        setChangeFormVisible={setIsFormChangingFormVisible}
+                      />
+                    );
+                  })}
+                </>
+              ) : (
+                <p className={styles.empty}>Тут пока пусто...</p>
+              )}
             </div>
           </div>
-        }
-
+        )}
 
         <div className={styles.btnWrapper}>
-          <AddTodoBtn
-            showAddTodo={setShowAddTodo}
-          />
+          <AddTodoBtn showAddTodo={setShowAddTodo} />
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

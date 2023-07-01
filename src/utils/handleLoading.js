@@ -1,28 +1,19 @@
-export const handleSearch = (
-  value,
+export const handleLoading = (
   setTodosCompleted,
   setTodosNotCompleted,
   setIsLoading
 ) => {
-  setIsLoading(true);
-
   fetch("http://localhost:3005/todos")
     .then((response) => response.json())
     .then((json) => {
       setTodosCompleted(
         json.filter((item) => {
-          return (
-            item.completed &&
-            item.todo.toLowerCase().includes(value.toLowerCase())
-          );
+          return item.completed;
         })
       );
       setTodosNotCompleted(
         json.filter((item) => {
-          return (
-            !item.completed &&
-            item.todo.toLowerCase().includes(value.toLowerCase())
-          );
+          return !item.completed;
         })
       );
     })
