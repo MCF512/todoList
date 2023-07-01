@@ -1,3 +1,6 @@
+import { ref, onValue } from 'firebase/database';
+import { db } from '../firebase';
+
 export const handleSearch = (
   value,
   setTodosCompleted,
@@ -6,25 +9,16 @@ export const handleSearch = (
 ) => {
   setIsLoading(true);
 
-  fetch("http://localhost:3005/todos")
-    .then((response) => response.json())
-    .then((json) => {
-      setTodosCompleted(
-        json.filter((item) => {
-          return (
-            item.completed &&
-            item.todo.toLowerCase().includes(value.toLowerCase())
-          );
-        })
-      );
-      setTodosNotCompleted(
-        json.filter((item) => {
-          return (
-            !item.completed &&
-            item.todo.toLowerCase().includes(value.toLowerCase())
-          );
-        })
-      );
-    })
-    .finally(() => setIsLoading(false));
+  const todosRef = ref(db, 'todos');
+
+  onValue(todosRef, (snapshot) => {
+    const loadedTodos = snapshot.val() || {};
+    setTodosCompleted(Object.entries(loadedTodos).filter(([id, { todo, completed }]) => {
+      return completed && todo.toLowerCase().includes(value.toLowerCase())
+    }))
+    setTodosNotCompleted(Object.entries(loadedTodos).filter(([id, { todo, completed }]) => {
+      return !completed && todo.toLowerCase().includes(value.toLowerCase())
+    }))
+    setIsLoading(false)
+  })
 };

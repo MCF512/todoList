@@ -5,7 +5,7 @@ import { handleDone } from '../../utils/handleDone';
 import { handleCorrectBtnClick } from '../../utils/handleCorrectBtnClick';
 import { MyCheckbox } from '../UI/MyCheckbox/MyCheckbox';
 
-export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId, setChangeFormVisible }) => {
+export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId, setChangeFormVisible, setIsLoadig }) => {
   const [showBtns, setShowBtns] = useState(false)
 
   return (
@@ -19,6 +19,7 @@ export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId
         id={id}
         refreshTodos={refreshTodos}
         completed={completed}
+        setIsLoadig={setIsLoadig}
       />
 
       <p

@@ -28,7 +28,7 @@ function App() {
   };
 
   useEffect(() => {
-    handleLoading(setTodosCompleted, setTodosNotCompleted, setIsLoading);
+    handleLoading(setTodosCompleted, setTodosNotCompleted, setIsLoading, sortDone, sortNotDone);
   }, [refresh, sortDone, sortNotDone]);
 
   return (
@@ -69,11 +69,14 @@ function App() {
                   sortType={sortNotDone}
                   setSort={setSortNotDone}
                   setIsLoading={setIsLoading}
+                  todosDone={false}
+                  setTodos={setTodosNotCompleted}
+                  refresh={refreshTodos}
                 />
               </div>
               {todosNotCompleted.length ? (
                 <>
-                  {todosNotCompleted.map(({ todo, id, completed }) => {
+                  {todosNotCompleted.map(([id, { todo, completed }]) => {
                     return (
                       <TodoCard
                         key={id}
@@ -84,6 +87,7 @@ function App() {
                         setToChange={setToChangeValue}
                         setId={setIdToChange}
                         setChangeFormVisible={setIsFormChangingFormVisible}
+                        setIsLoadig={setIsLoading}
                       />
                     );
                   })}{" "}
@@ -100,11 +104,14 @@ function App() {
                   sortType={sortDone}
                   setSort={setSortDone}
                   setIsLoading={setIsLoading}
+                  todosDone={true}
+                  setTodos={setTodosCompleted}
+                  refresh={refreshTodos}
                 />
               </div>
               {todosCompleted.length ? (
                 <>
-                  {todosCompleted.map(({ todo, id, completed }) => {
+                  {todosCompleted.map(([id, { completed, todo }]) => {
                     return (
                       <TodoCard
                         key={id}
@@ -115,6 +122,7 @@ function App() {
                         setToChange={setToChangeValue}
                         setId={setIdToChange}
                         setChangeFormVisible={setIsFormChangingFormVisible}
+                        setIsLoadig={setIsLoading}
                       />
                     );
                   })}

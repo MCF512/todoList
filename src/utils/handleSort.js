@@ -1,48 +1,33 @@
-export const handleSort = (sortType, setTodosCompleted, setTodosNotCompleted, sortDoneTodos, setIsLoading) => {
-  fetch('http://localhost:3005/todos')
-    .then(response => response.json())
-    .then(json => {
-      switch (sortType) {
-        case 'noSort':
-          break
-        case 'A-Z':
-          json.sort((a, b) => {
-            const todoA = a.todo.toUpperCase();
-            const todoB = b.todo.toUpperCase();
-            if (todoA < todoB) {
-              return -1;
-            }
-            if (todoA > todoB) {
-              return 1;
-            }
+export const handleSort = (sortType, todos) => {
+  switch (sortType) {
+    case 'noSort':
+      return todos
+    case 'A-Z':
+      return todos.sort((a, b) => {
+        const todoA = a[1].todo.toUpperCase();
+        const todoB = b[1].todo.toUpperCase();
+        if (todoA < todoB) {
+          return -1;
+        }
+        if (todoA > todoB) {
+          return 1;
+        }
 
-            return 0;
-          })
-          break
-        case 'Z-A':
-          json.sort((a, b) => {
-            const todoA = a.todo.toUpperCase();
-            const todoB = b.todo.toUpperCase();
-            if (todoA < todoB) {
-              return 1;
-            }
-            if (todoA > todoB) {
-              return -1;
-            }
+        return 0;
+      })
+    case 'Z-A':
+      return todos.sort((a, b) => {
+        const todoA = a[1].todo.toUpperCase();
+        const todoB = b[1].todo.toUpperCase();
+        if (todoA < todoB) {
+          return 1;
+        }
+        if (todoA > todoB) {
+          return -1;
+        }
 
-            return 0;
-          })
-          break
-      }
-
-      if (sortDoneTodos) {
-        setTodosCompleted(json.filter(item => {
-          return item.completed
-        }))
-      } else {
-        setTodosNotCompleted(json.filter(item => {
-          return !item.completed
-        }))
-      }
-    }).then(() => setIsLoading(false))
+        return 0;
+      })
+  }
 }
+

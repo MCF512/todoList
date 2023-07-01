@@ -1,22 +1,19 @@
+import { ref, onValue, set } from 'firebase/database';
+import { db } from '../firebase';
+
 export const handleSubmit = (e, id, toChangeValue, refreshTodos, setVisible) => {
   e.preventDefault()
 
-  async function getData() {
-    let data = await fetch(`http://localhost:3005/todos/${id}`)
-    let json = await data.json()
-    return json
-  }
+  const todoDbRef = ref(db, `todos/${id}`)
+  let loadedTodo = {}
+  onValue(todoDbRef, (snapshot) => {
+    loadedTodo = snapshot.val() || {};
+  })
 
-  getData()
-    .then(json => {
-      json.todo = toChangeValue
-
-      fetch(`http://localhost:3005/todos/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json;charset=utf-8' },
-        body: JSON.stringify(json)
-      }).then(() => refreshTodos())
-    })
+  set(todoDbRef, {
+    todo: toChangeValue,
+    completed: loadedTodo.completed
+  });
 
   document.body.style.overflow = 'visible'
   setVisible(false)

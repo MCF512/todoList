@@ -1,5 +1,7 @@
+import { ref, remove } from 'firebase/database';
+import { db } from '../firebase';
+
 export const handleDelete = (id, refreshTodos) => {
-  fetch(`http://localhost:3005/todos/${id}`, {
-    method: 'DELETE'
-  }).then(() => refreshTodos())
+  const todoRef = ref(db, `todos/${id}`);
+  remove(todoRef)
 } 
