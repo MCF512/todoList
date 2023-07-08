@@ -1,12 +1,12 @@
-import styles from './todoCard.module.css';
 import { useState } from 'react';
-import { handleDelete } from '../../utils/handleDelete';
-import { handleDone } from '../../utils/handleDone';
-import { handleCorrectBtnClick } from '../../utils/handleCorrectBtnClick';
-import { MyCheckbox } from '../UI/MyCheckbox/MyCheckbox';
+import { MyCheckbox } from '../components';
+import { useDelete, useChangeTodo } from '../../hooks/customHooks';
+import styles from './todoCard.module.css';
 
-export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId, setChangeFormVisible, setIsLoadig }) => {
+export const TodoCard = ({ todo, id, completed }) => {
   const [showBtns, setShowBtns] = useState(false)
+  const { del } = useDelete(`http://localhost:3005/todos/${id}`);
+  const { setChangingTodo } = useChangeTodo(`http://localhost:3005/todos`)
 
   return (
     <div
@@ -17,9 +17,7 @@ export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId
 
       <MyCheckbox
         id={id}
-        refreshTodos={refreshTodos}
         completed={completed}
-        setIsLoadig={setIsLoadig}
       />
 
       <p
@@ -30,12 +28,16 @@ export const TodoCard = ({ todo, id, completed, refreshTodos, setToChange, setId
 
       <div className={styles.btns}>
         <button
-          onClick={() => handleCorrectBtnClick(id, setToChange, setId, setChangeFormVisible)}
+          onClick={() => {
+            setChangingTodo(id)
+          }}
           className={showBtns ? styles.correct : styles.correctHidden}>
         </button>
 
         <button
-          onClick={() => handleDelete(id, refreshTodos)}
+          onClick={() => {
+            del(id)
+          }}
           className={showBtns ? styles.delete : styles.deleteHidden}></button>
       </div>
     </div>

@@ -1,25 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { Context } from "../../utils/context";
 import styles from "./search.module.css";
-import { handleSearch } from "../../utils/handleSearch";
 
-export const Search = ({
-  setTodosCompleted,
-  setTodosNotCompleted,
-  setIsLoading,
-}) => {
+
+export const Search = () => {
+  const { setSearchValue } = useContext(Context)
+
   return (
     <form className={styles.form}>
       <input
         className={styles.input}
         placeholder="Поиск..."
         type="text"
-        onChange={({ target }) =>
-          handleSearch(
-            target.value,
-            setTodosCompleted,
-            setTodosNotCompleted,
-            setIsLoading
-          )
+        onChange={({ target }) => {
+          setSearchValue(target.value)
+        }
         }
       />
     </form>

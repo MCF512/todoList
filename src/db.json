@@ -1,32 +1,29 @@
 {
-  "todos": {
-    "2062": {
+  "todos": [
+    {
+      "id": 20698768758690800,
       "todo": "Задача 3",
+      "completed": false
+    },
+    {
+      "id": 2069111187321691000,
+      "todo": "Задача 4123",
+      "completed": false
+    },
+    {
+      "id": 2.069876875878909e+23,
+      "todo": "Задача 6asdasd",
+      "completed": false
+    },
+    {
+      "id": 1499626,
+      "todo": "qweqwe",
       "completed": true
     },
-    "2438": {
-      "todo": "asdasda",
-      "completed": true
-    },
-    "7101": {
-      "todo": "af1231231",
-      "completed": true
-    },
-    "6211": {
-      "todo": "фыв",
-      "completed": true
-    },
-    "8528": {
+    {
+      "id": 2606306,
       "todo": "asdasd",
       "completed": true
-    },
-    "47": {
-      "todo": "5",
-      "completed": true
-    },
-    "8849": {
-      "todo": "asd",
-      "completed": false
     }
-  }
+  ]
 }

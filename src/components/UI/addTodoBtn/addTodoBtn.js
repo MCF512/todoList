@@ -1,13 +1,16 @@
-import React from "react";
-import styles from './addTodoBtn.module.css'
+import { useContext } from "react";
+import { Context } from "../../../utils/context";
+import styles from './addTodoBtn.module.css';
 
-export const AddTodoBtn = ({ showAddTodo }) => {
+export const AddTodoBtn = () => {
+  const { setIsAddFormVisible, isLoading } = useContext(Context)
+
   return (
     <button
-      className={styles.btn}
+      className={isLoading ? styles.none : styles.btn}
       onClick={() => {
-        document.body.style.overflow = 'hidden'
-        showAddTodo(true)
+        document.body.style.overflow = 'hidden';
+        setIsAddFormVisible(true)
       }}
     >
       +

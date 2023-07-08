@@ -1,3 +1,7 @@
+.none {
+  display: none;
+}
+
 .btn {
   background-color: rgb(186, 40, 40);
   border: none;
