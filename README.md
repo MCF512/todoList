@@ -19,6 +19,6 @@
     
 
 ## [Commit с выполненными заданиями 1-2](https://github.com/MCF512/todoList/commit/2fe76af0e11975d1089cdcb6ce99e7f88306241a)
-## [Commit с переписанными функциями для работы с базой данных firebase](https://github.com/MCF512/todoList/commit/b6819f414c8b69e4e44bbc73e7c5a8665be471c1)
+## [Commit с переписанными функциями для работы с базой данных firebase](https://github.com/MCF512/todoList/commit/505f794901e100a448b815cf033003bf6e3489d1)
 ## [Ссылка на приложение, выложенное на хостинге firebase](https://todolist-19c9e.web.app/)
 ### Для корректного отображение стилей - открывать ссылку в браузере Chrome
