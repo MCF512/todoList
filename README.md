@@ -16,8 +16,9 @@
     -зарегистрироваться на платформе Firebase;
     -создать базу данных и использовать её в приложении;
     -выполнить deploy и проверить работу приложения.
+    
 
-## [Commit с выполненными заданиями 1-2](https://github.com/MCF512/todoList/commit/8a5fedc07b096fc4541b7c8a4378794781ac91d2)
+## [Commit с выполненными заданиями 1-2](https://github.com/MCF512/todoList/commit/2fe76af0e11975d1089cdcb6ce99e7f88306241a)
 ## [Commit с переписанными функциями для работы с базой данных firebase](https://github.com/MCF512/todoList/commit/b6819f414c8b69e4e44bbc73e7c5a8665be471c1)
 ## [Ссылка на приложение, выложенное на хостинге firebase](https://todolist-19c9e.web.app/)
 ### Для корректного отображение стилей - открывать ссылку в браузере Chrome
