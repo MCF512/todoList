@@ -1,24 +1,21 @@
 import { useContext } from "react";
 import { Context } from "../utils/context";
+import { ref, push } from 'firebase/database'
+import { db } from '../firebase';
 
-export const useAddTodo = (adress) => {
+export const useAddTodo = () => {
   const { refreshTodos, setIsAddFormVisible } = useContext(Context)
 
   function addTodo(e, value) {
     e.preventDefault()
-    const ID = Math.floor(Math.random() * 10000000);
-    fetch(adress, {
-      method: "POST",
-      headers: { "Content-Type": "application/json;charset=utf-8" },
-      body: JSON.stringify({
-        id: ID,
-        todo: value,
-        completed: false,
-      }),
+    const todoDbRef = ref(db, 'todos');
+    push(todoDbRef, {
+      todo: value,
+      completed: false,
     }).then(() => {
+      document.body.style.overflow = "visible";
       setIsAddFormVisible(false)
-      refreshTodos()
-    })
+    }).then(() => refreshTodos())
   }
 
   return { addTodo }

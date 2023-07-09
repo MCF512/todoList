@@ -1,14 +1,16 @@
 import { useContext } from "react"
 import { Context } from "../utils/context"
+import { ref, remove } from 'firebase/database';
+import { db } from '../firebase';
 
-export const useDelete = (adress) => {
-  const { refreshTodos, setIsLoading } = useContext(Context)
+export const useDelete = () => {
+  const { setIsLoading, setIsChangeFormVisible } = useContext(Context)
 
-  function del() {
+  function del(id) {
     setIsLoading(true)
-    fetch(adress, {
-      method: 'DELETE'
-    }).then(() => refreshTodos())
+    const todoRef = ref(db, `todos/${id}`);
+    remove(todoRef)
+    setIsChangeFormVisible(false)
   }
 
   return { del }

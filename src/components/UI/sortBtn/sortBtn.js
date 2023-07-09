@@ -10,11 +10,11 @@ export const SortBtn = ({ completedTodos }) => {
 
     switch (styleToChange) {
       case 'noSort':
-        return styles.AZ;
+        return styles.NO;
       case 'A-Z':
-        return styles.ZA;
+        return styles.AZ;
       case 'Z-A':
-        return styles.NO
+        return styles.ZA
     }
   }
 

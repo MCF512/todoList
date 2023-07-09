@@ -23,7 +23,7 @@ export const App = () => {
     sortDoneTodos
   } = useContext(Context)
 
-  const { loadTodos } = useGetTodos(`http://localhost:3005/todos/`)
+  const { loadTodos } = useGetTodos()
 
   useEffect(() => {
     loadTodos();
@@ -52,7 +52,7 @@ export const App = () => {
               </div>
               {todosNotCompleted.length ? (
                 <>
-                  {todosNotCompleted.map(({ todo, id, completed }) => {
+                  {todosNotCompleted.map(([id, { todo, completed }]) => {
                     return (
                       <TodoCard
                         key={id}
@@ -77,7 +77,7 @@ export const App = () => {
               </div>
               {todosCompleted.length ? (
                 <>
-                  {todosCompleted.map(({ todo, id, completed }) => {
+                  {todosCompleted.map(([id, { todo, completed }]) => {
                     return (
                       <TodoCard
                         key={id}

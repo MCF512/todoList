@@ -5,8 +5,8 @@ import styles from './todoCard.module.css';
 
 export const TodoCard = ({ todo, id, completed }) => {
   const [showBtns, setShowBtns] = useState(false)
-  const { del } = useDelete(`http://localhost:3005/todos/${id}`);
-  const { setChangingTodo } = useChangeTodo(`http://localhost:3005/todos`)
+  const { del } = useDelete();
+  const { setChangingTodo } = useChangeTodo()
 
   return (
     <div
