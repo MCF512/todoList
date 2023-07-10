@@ -2,13 +2,13 @@ import styles from './MyCheckbox.module.css';
 import { useClickOnCheckbox } from '../../../hooks/useClickOnCheckbox';
 
 export const MyCheckbox = ({ id, completed }) => {
-  const { clickOnCheckbox } = useClickOnCheckbox()
+  const { clickOnCheckbox } = useClickOnCheckbox(`http://localhost:3005/todos/${id}`)
 
   return (
-    <form>
+    <>
       <input
         className={styles.checkbox}
-        onChange={() => clickOnCheckbox(id)}
+        onChange={() => clickOnCheckbox()}
         checked={completed}
         type='checkbox'
         name='checkbox'
@@ -16,8 +16,8 @@ export const MyCheckbox = ({ id, completed }) => {
       <label
         className={styles.label}
         htmlFor='checkbox'
-        onClick={() => clickOnCheckbox(id)}
+        onClick={() => clickOnCheckbox()}
       ></label>
-    </form>
+    </>
   )
 }

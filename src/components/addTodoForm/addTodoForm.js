@@ -19,10 +19,7 @@ export const AddTodoForm = () => {
     >
       <form
         className={styles.form}
-        onSubmit={(e) => {
-          addTodo(e, addTodoValue)
-          setAddTodoValue("")
-        }}
+        onSubmit={(e) => addTodo(e, addTodoValue)}
       >
         <p className={styles.title}>Добавить задачу</p>
         <input

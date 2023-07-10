@@ -20,7 +20,7 @@ export const ChangeForm = () => {
     >
       <form
         className={styles.form}
-        onSubmit={(e) => submitChangingTodo(e, valueToChange)}>
+        onSubmit={() => submitChangingTodo(valueToChange)}>
         <p className={styles.title}>Редактировать задачу</p>
         <input
           className={styles.textarea}

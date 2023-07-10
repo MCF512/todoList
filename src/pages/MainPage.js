@@ -1,18 +1,17 @@
 import { useEffect, useContext } from "react";
 import {
-  TodoCard,
-  ChangeForm,
-  AddTodoForm,
   Search,
   AddTodoBtn,
   SortBtn,
-  Spinner
-} from './components/components';
-import { useGetTodos } from "./hooks/customHooks";
-import { Context } from "./utils/context";
-import styles from "./App.module.css";
+  Spinner,
+  AddTodoForm
+} from '../components/components';
+import { useGetTodos } from "../hooks/customHooks";
+import { Context } from "../utils/context";
+import styles from "./MainPage.module.css";
+import { MainPageCard } from "../components/todoCard/MainPageCard/MainPageCard";
 
-export const App = () => {
+export const MainPage = () => {
   const {
     refresh,
     searchValue,
@@ -32,8 +31,6 @@ export const App = () => {
   return (
     <div className={styles.App}>
       <AddTodoForm />
-      <ChangeForm />
-
       <div className={styles.AppWrapper}>
         <div className={styles.top}>
           <Search />
@@ -54,7 +51,7 @@ export const App = () => {
                 <>
                   {todosNotCompleted.map(({ todo, id, completed }) => {
                     return (
-                      <TodoCard
+                      <MainPageCard
                         key={id}
                         todo={todo}
                         id={id}
@@ -79,7 +76,7 @@ export const App = () => {
                 <>
                   {todosCompleted.map(({ todo, id, completed }) => {
                     return (
-                      <TodoCard
+                      <MainPageCard
                         key={id}
                         id={id}
                         todo={todo}
@@ -100,5 +97,5 @@ export const App = () => {
         </div>
       </div>
     </div>
-  );
+  )
 }

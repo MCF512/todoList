@@ -1,44 +1,36 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { Context } from "../utils/context";
-import { ref, onValue, set } from 'firebase/database';
-import { db } from '../firebase';
 
-export const useChangeTodo = () => {
-  const { setIsChangeFormVisible, setIdToChange, setValueToChange, idToChange, setIsLoading } = useContext(Context);
-
+export const useChangeTodo = (adress) => {
+  const { setIsChangeFormVisible, setIdToChange, setValueToChange, idToChange, refreshTodos, setIsLoading } = useContext(Context);
 
   function setChangingTodo(id) {
     setIsLoading(true)
     setIdToChange(id);
-    const todoDbRef = ref(db, `todos/${id}`);
-
-    onValue(todoDbRef, (snapshot) => {
-      const loadedTodo = snapshot.val() || [];
-      setValueToChange(loadedTodo.todo);
-      document.body.style.overflow = 'hidden'
-      setIsLoading(false)
-      setIsChangeFormVisible(true)
-    })
-
-    console.log('setCangingTodo')
+    fetch(`${adress}/${id}`)
+      .then(res => res.json())
+      .then(json => {
+        setValueToChange(json.todo);
+      })
+      .then(() => {
+        document.body.style.overflow = 'hidden'
+        setIsChangeFormVisible(true)
+        setIsLoading(false)
+      })
   }
 
-  function submitChangingTodo(e, value) {
-    e.preventDefault()
-    const todoDbRef = ref(db, `todos/${idToChange}`);
-    let loadedTodo = {}
-    onValue(todoDbRef, (snapshot) => {
-      loadedTodo = snapshot.val() || {};
+  function submitChangingTodo(value) {
+    setIsLoading(true)
+    fetch(`${adress}/${idToChange}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        todo: value
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
     })
-
-    set(todoDbRef, {
-      todo: value,
-      completed: loadedTodo.completed
-    });
-
-    document.body.style.overflow = 'visible'
-    setValueToChange('')
-    setIsChangeFormVisible(false);
+      .then(setIsLoading(false))
   }
 
   return { setChangingTodo, submitChangingTodo }

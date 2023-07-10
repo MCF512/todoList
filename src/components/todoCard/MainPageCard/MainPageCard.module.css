@@ -1,13 +1,9 @@
 .card {
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
-  flex-direction: column-reverse;
   align-items: center;
-  justify-content: center;
   padding: 10px;
   min-width: 400px;
-  max-width: 900px;
-  width: fit-content;
   border-radius: 15px;
   margin-bottom: 20px;
   color: #202020;
@@ -15,20 +11,21 @@
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, .12);
   transition: border-color 0.3s, box-shadow 0.3s;
-  margin: 0 auto;
-  margin-top: 100px
+}
+
+.card:hover {
+  border-color: rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
 }
 
 .text {
   margin-left: 20px;
-
 }
 
 .delete,
 .deleteHidden,
 .correct,
-.correctHidden,
-.back {
+.correctHidden {
   margin-left: auto;
   width: 22px;
   height: 22px;
@@ -43,23 +40,16 @@
 }
 
 .delete {
-  background-image: url('../../assets/delete.svg');
+  background-image: url('../../../assets/delete.svg');
   margin-left: 5px;
 }
 
 .correct {
-  background-image: url('../../assets/pencil.svg');
-  margin-left: 5px;
-}
-
-.back {
-  display: block;
-  background-image: url('../../assets/back.svg');
+  background-image: url('../../../assets/pencil.svg');
 }
 
 .delete:hover,
-.correct:hover,
-.back:hover {
+.correct:hover {
   opacity: 0.8;
 }
 
@@ -69,12 +59,7 @@
 }
 
 .btns {
-  margin-top: 15px;
-  padding: 0 50px;
-  width: 88%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin-left: auto;
 }
 
 .completed,
@@ -82,30 +67,15 @@
   box-sizing: border-box;
   cursor: pointer;
   font-size: 20px;
-  max-width: 800px;
+  max-width: 290px;
   margin-left: 10px;
   word-wrap: break-word;
+  color: #202020;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 20px 0;
 }
 
 .completed {
   text-decoration: line-through;
-}
-
-.btnsWrapper {
-  display: flex;
-}
-
-.titleCompleted,
-.titleNotCompleted {
-  margin: 0;
-  font-size: 12px;
-}
-
-.titleCompleted {
-  color: green;
-  text-decoration: line-through;
-}
-
-.titleNotCompleted {
-  color: red;
 }

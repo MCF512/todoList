@@ -1,10 +1,8 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { Context } from "../utils/context";
-import { ref, onValue } from 'firebase/database';
-import { db } from "../firebase";
 
 
-export const useGetTodos = () => {
+export const useGetTodos = (adress) => {
   const { setTodosCompleted, setTodosNotCompleted, setIsLoading, searchValue, sortDoneTodos, sortNotDoneTodos } = useContext(Context);
 
   function sortTodos(sortType, obj) {
@@ -13,8 +11,8 @@ export const useGetTodos = () => {
         break
       case 'A-Z':
         obj.sort((a, b) => {
-          const todoA = a[1].todo.toUpperCase();
-          const todoB = b[1].todo.toUpperCase();
+          const todoA = a.todo.toUpperCase();
+          const todoB = b.todo.toUpperCase();
           if (todoA < todoB) {
             return -1;
           }
@@ -27,8 +25,8 @@ export const useGetTodos = () => {
         break
       case 'Z-A':
         obj.sort((a, b) => {
-          const todoA = a[1].todo.toUpperCase();
-          const todoB = b[1].todo.toUpperCase();
+          const todoA = a.todo.toUpperCase();
+          const todoB = b.todo.toUpperCase();
           if (todoA < todoB) {
             return 1;
           }
@@ -45,22 +43,22 @@ export const useGetTodos = () => {
 
   function loadTodos() {
     setIsLoading(true)
-    const todosRef = ref(db, 'todos');
-    onValue(todosRef, (snapshot) => {
-      const loadedTodos = snapshot.val() || [];
+    fetch(adress)
+      .then(data => data.json())
+      .then(json => {
+        setTodosCompleted(() => {
+          return sortTodos(sortDoneTodos, json.filter(item => {
+            return item.completed && item.todo.toLowerCase().includes(searchValue.toLowerCase())
+          }))
+        })
 
-      setTodosCompleted(() => {
-        return sortTodos(sortDoneTodos, Object.entries(loadedTodos)).filter(([id, { completed, todo }]) => {
-          return completed && todo.toLowerCase().includes(searchValue.toLowerCase())
+        setTodosNotCompleted(() => {
+          return sortTodos(sortNotDoneTodos, json.filter(item => {
+            return !item.completed && item.todo.toLowerCase().includes(searchValue.toLowerCase())
+          }))
         })
       })
-      setTodosNotCompleted(() => {
-        return sortTodos(sortNotDoneTodos, Object.entries(loadedTodos)).filter(([id, { completed, todo }]) => {
-          return !completed && todo.toLowerCase().includes(searchValue.toLowerCase())
-        })
-      })
-      setIsLoading(false)
-    });
+      .then(() => setIsLoading(false))
   }
 
   return { loadTodos }
