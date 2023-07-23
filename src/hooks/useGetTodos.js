@@ -1,16 +1,16 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { Context } from "../utils/context";
 
 
 export const useGetTodos = (adress) => {
-  const { setTodosCompleted, setTodosNotCompleted, setIsLoading, searchValue, sortDoneTodos, sortNotDoneTodos } = useContext(Context);
+  const { setIsLoading, setIsSearching, setItems, searchValue } = useContext(Context);
 
-  function sortTodos(sortType, obj) {
+  function sortTodos(sortType, arr) {
     switch (sortType) {
       case 'noSort':
         break
       case 'A-Z':
-        obj.sort((a, b) => {
+        arr.sort((a, b) => {
           const todoA = a.todo.toUpperCase();
           const todoB = b.todo.toUpperCase();
           if (todoA < todoB) {
@@ -24,7 +24,7 @@ export const useGetTodos = (adress) => {
         });
         break
       case 'Z-A':
-        obj.sort((a, b) => {
+        arr.sort((a, b) => {
           const todoA = a.todo.toUpperCase();
           const todoB = b.todo.toUpperCase();
           if (todoA < todoB) {
@@ -38,7 +38,7 @@ export const useGetTodos = (adress) => {
         })
         break
     }
-    return obj
+    return arr
   }
 
   function loadTodos() {
@@ -46,20 +46,28 @@ export const useGetTodos = (adress) => {
     fetch(adress)
       .then(data => data.json())
       .then(json => {
-        setTodosCompleted(() => {
-          return sortTodos(sortDoneTodos, json.filter(item => {
-            return item.completed && item.todo.toLowerCase().includes(searchValue.toLowerCase())
-          }))
-        })
-
-        setTodosNotCompleted(() => {
-          return sortTodos(sortNotDoneTodos, json.filter(item => {
-            return !item.completed && item.todo.toLowerCase().includes(searchValue.toLowerCase())
-          }))
-        })
+        setItems(json)
       })
       .then(() => setIsLoading(false))
   }
 
-  return { loadTodos }
+  function searchTodos() {
+    if (!searchValue) {
+      setIsSearching(false)
+      return
+    } else {
+      setIsSearching(true)
+      setIsLoading(true)
+      fetch(adress)
+        .then(data => data.json())
+        .then(json => {
+          setItems(json.filter(item => {
+            return item.todo.toLowerCase().includes(searchValue.toLowerCase())
+          }))
+        })
+        .then(() => setIsLoading(false))
+    }
+  }
+
+  return { loadTodos, sortTodos, searchTodos }
 }

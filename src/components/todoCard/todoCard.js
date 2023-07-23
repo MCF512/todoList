@@ -2,9 +2,8 @@ import { useDelete, useChangeTodo } from '../../hooks/customHooks';
 import styles from './todoCard.module.css';
 import { Link } from 'react-router-dom';
 
-export const TodoCard = ({ todo, id, completed }) => {
+export const TodoCard = ({ todo, id, completed, setIsChangeFormVisible }) => {
   const { del } = useDelete(`http://localhost:3005/todos/${id}`);
-  const { setChangingTodo } = useChangeTodo(`http://localhost:3005/todos`)
 
   return (
     <div
@@ -38,7 +37,7 @@ export const TodoCard = ({ todo, id, completed }) => {
 
           <button
             onClick={() => {
-              setChangingTodo(id)
+              setIsChangeFormVisible(true)
             }}
             className={styles.correct}>
           </button>

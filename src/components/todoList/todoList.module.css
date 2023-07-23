@@ -1,0 +1,14 @@
+.botWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todoWrapper {
+  width: 450px;
+}
+
+.titleWrapper {
+  color: #202020;
+  display: flex;
+  align-items: center;
+}

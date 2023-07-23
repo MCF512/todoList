@@ -6,3 +6,5 @@ export * from './UI/MyCheckbox/MyCheckbox';
 export * from './UI/addTodoBtn/addTodoBtn';
 export * from './UI/sortBtn/sortBtn';
 export * from './UI/spinner/spinner';
+export * from './todoList/todoList';
+export * from './todoCard/MainPageCard/MainPageCard'

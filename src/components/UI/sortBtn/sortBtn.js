@@ -1,14 +1,14 @@
-import { useContext } from "react";
-import { Context } from "../../../utils/context";
+import { useState } from "react";
 import styles from './sortBtn.module.css'
+import { useGetTodos } from "../../../hooks/useGetTodos";
 
-export const SortBtn = ({ completedTodos }) => {
-  const { sortDoneTodos, setSortDoneTodos, sortNotDoneTodos, setSortNotDoneTodos } = useContext(Context);
+export const SortBtn = ({ todos, setTodos }) => {
+
+  const [styleBtn, setStyleBtn] = useState('noSort');
+  const { sortTodos } = useGetTodos()
 
   const setStyles = () => {
-    const styleToChange = completedTodos ? sortDoneTodos : sortNotDoneTodos;
-
-    switch (styleToChange) {
+    switch (styleBtn) {
       case 'noSort':
         return styles.NO;
       case 'A-Z':
@@ -21,10 +21,16 @@ export const SortBtn = ({ completedTodos }) => {
   const clickOnSort = (val) => {
     switch (val) {
       case 'noSort':
+        setStyleBtn('A-Z')
+        setTodos([...sortTodos('A-Z', todos)])
         return 'A-Z'
       case 'A-Z':
+        setStyleBtn('Z-A')
+        setTodos([...sortTodos('Z-A', todos)])
         return 'Z-A'
       case 'Z-A':
+        setStyleBtn('noSort')
+        setTodos([...sortTodos('noSort', todos)])
         return 'noSort'
     }
   }
@@ -33,10 +39,7 @@ export const SortBtn = ({ completedTodos }) => {
     <button
       className={setStyles()}
       onClick={() => {
-        completedTodos ?
-          setSortDoneTodos(clickOnSort(sortDoneTodos))
-          :
-          setSortNotDoneTodos(clickOnSort(sortNotDoneTodos))
+        clickOnSort(styleBtn)
       }}
     >
     </button>

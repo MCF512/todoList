@@ -4,15 +4,10 @@ import { Context } from "./utils/context";
 export const ContextWrapper = ({ children }) => {
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAddFormVisible, setIsAddFormVisible] = useState(false);
-  const [isChangeFormVisible, setIsChangeFormVisible] = useState(false);
-  const [todosCompleted, setTodosCompleted] = useState([])
-  const [todosNotCompleted, setTodosNotCompleted] = useState([]);
-  const [idToChange, setIdToChange] = useState(null);
-  const [valueToChange, setValueToChange] = useState('');
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [sortDoneTodos, setSortDoneTodos] = useState('noSort')
-  const [sortNotDoneTodos, setSortNotDoneTodos] = useState('noSort')
+  const [items, setItems] = useState([])
 
   const refreshTodos = () => {
     setRefresh(!refresh);
@@ -25,24 +20,14 @@ export const ContextWrapper = ({ children }) => {
         refreshTodos,
         isLoading,
         setIsLoading,
-        isAddFormVisible,
-        setIsAddFormVisible,
-        isChangeFormVisible,
-        setIsChangeFormVisible,
-        todosCompleted,
-        setTodosCompleted,
-        todosNotCompleted,
-        setTodosNotCompleted,
-        idToChange,
-        setIdToChange,
-        valueToChange,
-        setValueToChange,
+        isSearching,
+        setIsSearching,
+        isUpdating,
+        setIsUpdating,
         searchValue,
         setSearchValue,
-        sortDoneTodos,
-        setSortDoneTodos,
-        sortNotDoneTodos,
-        setSortNotDoneTodos
+        items,
+        setItems
       }}
     >
       {children}

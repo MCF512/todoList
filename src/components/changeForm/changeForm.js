@@ -1,13 +1,10 @@
-import { useContext } from "react";
-import { Context } from "../../utils/context";
+import { useState } from "react";
 import { useChangeTodo } from "../../hooks/customHooks";
 import styles from "./changeFrom.module.css"
 
-export const ChangeForm = () => {
-  const { isChangeFormVisible, setIsChangeFormVisible, valueToChange, setValueToChange } = useContext(Context);
-
+export const ChangeForm = ({ isChangeFormVisible, setIsChangeFormVisible, valueToChange, todoId }) => {
+  const [value, setValue] = useState(valueToChange ? valueToChange : 'Не подгрузилась');
   const { submitChangingTodo } = useChangeTodo(`http://localhost:3005/todos`)
-
 
   const varStyle = {
     '--scrollTop': `${document.documentElement.scrollTop}px`
@@ -20,12 +17,16 @@ export const ChangeForm = () => {
     >
       <form
         className={styles.form}
-        onSubmit={() => submitChangingTodo(valueToChange)}>
+        onSubmit={(e) => {
+          e.preventDefault()
+          submitChangingTodo(value, todoId)
+          setIsChangeFormVisible(false)
+        }}>
         <p className={styles.title}>Редактировать задачу</p>
         <input
           className={styles.textarea}
-          onChange={({ target }) => setValueToChange(target.value)} type='text'
-          value={valueToChange}
+          onChange={({ target }) => setValue(target.value)} type='text'
+          value={value}
         />
         <div className={styles.botWrapper}>
           <button className={styles.add} type="submit"></button>

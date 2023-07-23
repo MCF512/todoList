@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from './App';
 import { ContextWrapper } from './ContextWrapper';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './index.css';

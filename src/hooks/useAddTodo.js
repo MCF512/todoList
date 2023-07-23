@@ -2,10 +2,11 @@ import { useContext } from "react";
 import { Context } from "../utils/context";
 
 export const useAddTodo = (adress) => {
-  const { refreshTodos, setIsAddFormVisible } = useContext(Context)
+  const { setIsLoading, refreshTodos } = useContext(Context)
 
   function addTodo(e, value) {
     e.preventDefault()
+    setIsLoading(true)
     const ID = Math.floor(Math.random() * 10000000);
     fetch(adress, {
       method: "POST",
@@ -16,8 +17,9 @@ export const useAddTodo = (adress) => {
         completed: false,
       }),
     }).then(() => {
-      setIsAddFormVisible(false)
       refreshTodos()
+      setIsLoading(false)
+      document.body.style.overflow = 'visible'
     })
   }
 

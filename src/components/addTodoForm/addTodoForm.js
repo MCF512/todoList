@@ -1,11 +1,9 @@
-import { useState, useContext } from "react";
-import { Context } from "../../utils/context";
+import { useState } from "react";
 import { useAddTodo } from "../../hooks/customHooks";
 import styles from "./addTodoForm.module.css";
 
-export const AddTodoForm = () => {
+export const AddTodoForm = ({ isAddFormVisible, setIsAddFormVisible }) => {
   const [addTodoValue, setAddTodoValue] = useState("");
-  const { isAddFormVisible, setIsAddFormVisible } = useContext(Context)
   const { addTodo } = useAddTodo(`http://localhost:3005/todos`);
 
   const varStyle = {
@@ -19,7 +17,10 @@ export const AddTodoForm = () => {
     >
       <form
         className={styles.form}
-        onSubmit={(e) => addTodo(e, addTodoValue)}
+        onSubmit={(e) => {
+          setIsAddFormVisible(false)
+          addTodo(e, addTodoValue)
+        }}
       >
         <p className={styles.title}>Добавить задачу</p>
         <input
