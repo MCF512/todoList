@@ -1,16 +1,16 @@
-import { useContext } from "react";
-import { Context } from "../../../utils/context";
 import styles from './addTodoBtn.module.css';
+import { useDispatch } from "react-redux";
+import { showAddForm } from "../../../store/actions/index";
 
-export const AddTodoBtn = ({ handleClick }) => {
-  const { isLoading } = useContext(Context)
+export const AddTodoBtn = () => {
+  const dispatch = useDispatch()
 
   return (
     <button
-      className={isLoading ? styles.none : styles.btn}
+      // className={isLoading ? styles.none : styles.btn}
+      className={styles.btn}
       onClick={() => {
-        document.body.style.overflow = 'hidden';
-        handleClick()
+        dispatch(showAddForm())
       }}
     >
       +

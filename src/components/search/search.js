@@ -1,22 +1,15 @@
-import { useContext } from "react";
-import { Context } from "../../utils/context";
 import styles from "./search.module.css";
+import { useDispatch } from "react-redux";
+import { searchTodos } from "../../store/actions/searchTodos";
+import { debounce } from "../../utils";
 
 
 export const Search = () => {
-  const { setSearchValue, setIsSearching } = useContext(Context)
+  const dispatch = useDispatch()
 
+  const searchTodo = (e) => dispatch(searchTodos(e.target.value))
 
-  const inputChange = ({ target }) => {
-    if (!target.value) {
-      setSearchValue('')
-      setIsSearching(false)
-      return
-    } else {
-      setIsSearching(true)
-      setSearchValue(target.value)
-    }
-  }
+  const debouncedSearchTodo = debounce(searchTodo, 500)
 
   return (
     <form className={styles.form}>
@@ -24,7 +17,7 @@ export const Search = () => {
         className={styles.input}
         placeholder="Поиск..."
         type="text"
-        onChange={(e) => inputChange(e)}
+        onChange={debouncedSearchTodo}
       />
     </form>
   );

@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { MainPageCard, SortBtn } from "../components";
 import styles from './todoList.module.css'
-export const TodoList = ({ items, completedTodos }) => {
+import { useSelector } from "react-redux";
+import { sortTodos } from "../../utils";
 
-  const [todos, setTodos] = useState(items.filter(item => {
+export const TodoList = ({ completedTodos }) => {
+  const [styleBtn, setStyleBtn] = useState('noSort');
+
+  const todos = sortTodos(useSelector((state) => state.todos.filter(item => {
     return item.completed == completedTodos
-  }))
+  })), styleBtn)
 
   return (
     <div className={styles.botWrapper}>
@@ -15,8 +19,8 @@ export const TodoList = ({ items, completedTodos }) => {
             {completedTodos ? 'Выполнено' : 'Не выполнено'}
           </h2>
           <SortBtn
-            todos={todos}
-            setTodos={setTodos}
+            styleBtn={styleBtn}
+            setStyleBtn={setStyleBtn}
           />
         </div>
         {todos.length ? (

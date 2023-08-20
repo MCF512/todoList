@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useChangeTodo } from "../../hooks/customHooks";
 import styles from "./changeFrom.module.css"
+import { changeTodo, hideChangeForm } from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 
-export const ChangeForm = ({ isChangeFormVisible, setIsChangeFormVisible, valueToChange, todoId }) => {
+export const ChangeForm = ({ valueToChange, todoId }) => {
   const [value, setValue] = useState(valueToChange ? valueToChange : 'Не подгрузилась');
-  const { submitChangingTodo } = useChangeTodo(`http://localhost:3005/todos`)
+  const dispatch = useDispatch()
 
+  const isChangeFormVisible = useSelector((state) => state.forms.isChangeFormVisible)
   const varStyle = {
     '--scrollTop': `${document.documentElement.scrollTop}px`
   }
@@ -19,8 +21,7 @@ export const ChangeForm = ({ isChangeFormVisible, setIsChangeFormVisible, valueT
         className={styles.form}
         onSubmit={(e) => {
           e.preventDefault()
-          submitChangingTodo(value, todoId)
-          setIsChangeFormVisible(false)
+          dispatch(changeTodo(todoId, value))
         }}>
         <p className={styles.title}>Редактировать задачу</p>
         <input
@@ -32,8 +33,7 @@ export const ChangeForm = ({ isChangeFormVisible, setIsChangeFormVisible, valueT
           <button className={styles.add} type="submit"></button>
           <button className={styles.close} type="button"
             onClick={() => {
-              document.body.style.overflow = 'visible'
-              setIsChangeFormVisible(false)
+              dispatch(hideChangeForm())
             }}></button>
 
         </div>

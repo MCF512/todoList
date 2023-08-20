@@ -1,11 +1,7 @@
 import { useState } from "react";
 import styles from './sortBtn.module.css'
-import { useGetTodos } from "../../../hooks/useGetTodos";
 
-export const SortBtn = ({ todos, setTodos }) => {
-
-  const [styleBtn, setStyleBtn] = useState('noSort');
-  const { sortTodos } = useGetTodos()
+export const SortBtn = ({ styleBtn, setStyleBtn }) => {
 
   const setStyles = () => {
     switch (styleBtn) {
@@ -22,16 +18,13 @@ export const SortBtn = ({ todos, setTodos }) => {
     switch (val) {
       case 'noSort':
         setStyleBtn('A-Z')
-        setTodos([...sortTodos('A-Z', todos)])
-        return 'A-Z'
+        break;
       case 'A-Z':
         setStyleBtn('Z-A')
-        setTodos([...sortTodos('Z-A', todos)])
-        return 'Z-A'
+        break;
       case 'Z-A':
         setStyleBtn('noSort')
-        setTodos([...sortTodos('noSort', todos)])
-        return 'noSort'
+        break;
     }
   }
 

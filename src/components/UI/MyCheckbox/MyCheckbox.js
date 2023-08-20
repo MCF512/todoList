@@ -1,14 +1,15 @@
 import styles from './MyCheckbox.module.css';
-import { useClickOnCheckbox } from '../../../hooks/useClickOnCheckbox';
+import { setCurrentTodoState } from '../../../store/actions/index';
+import { useDispatch } from 'react-redux';
 
 export const MyCheckbox = ({ id, completed }) => {
-  const { clickOnCheckbox } = useClickOnCheckbox(`http://localhost:3005/todos/${id}`)
+  const dispatch = useDispatch()
 
   return (
     <>
       <input
         className={styles.checkbox}
-        onChange={() => clickOnCheckbox()}
+        onChange={() => dispatch(setCurrentTodoState(id))}
         checked={completed}
         type='checkbox'
         name='checkbox'
@@ -16,7 +17,7 @@ export const MyCheckbox = ({ id, completed }) => {
       <label
         className={styles.label}
         htmlFor='checkbox'
-        onClick={() => clickOnCheckbox()}
+        onClick={() => dispatch(setCurrentTodoState(id))}
       ></label>
     </>
   )

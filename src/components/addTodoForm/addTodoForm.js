@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { useAddTodo } from "../../hooks/customHooks";
 import styles from "./addTodoForm.module.css";
+import { addTodo, hideAddForm } from "../../store/actions/index";
+import { useDispatch, useSelector } from "react-redux";
 
-export const AddTodoForm = ({ isAddFormVisible, setIsAddFormVisible }) => {
+export const AddTodoForm = () => {
   const [addTodoValue, setAddTodoValue] = useState("");
-  const { addTodo } = useAddTodo(`http://localhost:3005/todos`);
+  const dispatch = useDispatch()
 
   const varStyle = {
     "--scrollTop": `${document.documentElement.scrollTop}px`,
   };
+
+  const isAddFormVisible = useSelector((state) => state.forms.isAddFormVisible)
 
   return (
     <div
@@ -18,8 +21,8 @@ export const AddTodoForm = ({ isAddFormVisible, setIsAddFormVisible }) => {
       <form
         className={styles.form}
         onSubmit={(e) => {
-          setIsAddFormVisible(false)
-          addTodo(e, addTodoValue)
+          e.preventDefault()
+          dispatch(addTodo(addTodoValue, setAddTodoValue))
         }}
       >
         <p className={styles.title}>Добавить задачу</p>
@@ -38,11 +41,7 @@ export const AddTodoForm = ({ isAddFormVisible, setIsAddFormVisible }) => {
           <button
             className={styles.close}
             type="button"
-            onClick={() => {
-              document.body.style.overflow = "visible";
-              setAddTodoValue("");
-              setIsAddFormVisible(false)
-            }}
+            onClick={() => dispatch(hideAddForm(setAddTodoValue))}
           />
         </div>
       </form>
